@@ -9,29 +9,113 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+
+
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+
+
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view1">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
+	<template>
+		<style include="shared-styles">
+			:host {
+				display: block;
+				padding: 10px;
+			}
+			
+			.register-button {
+				color: #4285f4;
+			}
 
-        padding: 10px;
-      }
-    </style>
+			.program {
+				width: 700px;
+				margin-bottom: 10px;
+			}
+			
+			.dates {
+				color: #757575;
+			}
+		</style>
 
-    <div class="card">
-      <div class="circle">1</div>
-      <h1>View One</h1>
-      <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-    </div>
-  </template>
+		<style include="iron-flex iron-flex-reverse iron-flex-alignment iron-flex-factors"></style>
 
-  <script>
-    Polymer({
-      is: 'my-view1',
-    });
-  </script>
+
+
+		<div class="main">
+			<div class="circle">1</div>
+			<h3>Now Registering 1st-12th Grade Students for CodeWritingKids Winter/Spring Classes and Weekend Workshops</h3>
+
+			<paper-button raised>Register Now</paper-button>
+		</div>
+
+		<div class="programs vertical layout center">
+			<template is="dom-repeat" items="{{programs}}" as="program">
+
+				<paper-card class="program" heading="{{program.name}}" elevation="2" animated-shadow="true">
+					<div class="card-content">
+						<div class="dates">
+							<p>{{program.dates}}</p>
+						</div>
+						<iron-collapse ident$="subitem[[index]]">
+							<div class="schedule">
+								{{program.schedule}}
+							</div>
+
+							<p>{{program.description}}</p>
+						</iron-collapse>
+
+					</div>
+					<div class="card-actions">
+						<paper-button on-tap="toggle" ident$="subitem[[index]]">Details</paper-button>
+						<paper-button class="register-button">Register</paper-button>
+					</div>
+				</paper-card>
+
+			</template>
+		</div>
+
+	</template>
+
+	<script>
+		Polymer({
+			is: 'my-view1',
+			properties: {
+				programs: {
+					type: Array,
+					value: function () {
+						return [
+							{
+								name: "Spring Break Camp",
+								location: "Milpitas Adult Education Center",
+								schedule: "Monday to Friday - Stay one day, two days, or all week. ",
+								dates: "April 10th - 14th, 2017 -- 8:30am to 12:30pm",
+								description: "Learn Web Design, Coding, Scratch, Games & More!\n Have fun building websites with HTML and CSS! Craft your own games! Learn the basics of programming and beyond. No prior experience necessary. "
+							},
+							{
+								name: "Intro to AP Computer Science",
+								location: "Milpitas Adult Education Center",
+								schedule: "Monday to Friday - Stay one day, two days, or all week. ",
+								dates: "April 10th - 14th, 2017 -- 8:30am to 12:30pm",
+								description: "This is a Software Engineering course which follows the curricular outline from the College Board APCS program."
+							},
+						];
+					}
+				}
+
+			},
+			toggle: function (event) {
+				var id = event.currentTarget.getAttribute('ident');
+				var collapse = this.$$('iron-collapse[ident="' + id + '"]');
+				collapse.toggle();
+			},
+		});
+	</script>
 </dom-module>
